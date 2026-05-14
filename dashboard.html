@@ -15,6 +15,29 @@
       --text-dim: #94a3b8;
       --white: #f8fafc;
     }
+    
+@media (max-width: 768px) {
+  body {
+    flex-direction: column; 
+    overflow-y: auto;
+    height: auto;
+  }
+  .sidebar {
+    width: 100%;
+    padding: 20px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .viewport {
+    padding: 20px;
+  }
+  .hero-center h1 {
+    font-size: 2.5rem; 
+  }
+  .grid {
+    grid-template-columns: 1fr; 
+  }
+} 
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
 
