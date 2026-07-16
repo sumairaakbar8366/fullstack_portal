@@ -1,15 +1,25 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 const db = require("./db");
 
 const app = express();
 
-app.use(cors());
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(bodyParser.json());
 
+
+app.use(express.static(path.join(__dirname, "../")));
+
+
 app.get("/", (req, res) => {
-  res.send("Backend is Live and Running!");
+  res.sendFile(path.join(__dirname, "../login.html"));
 });
 
 // SIGNUP API 
@@ -43,7 +53,7 @@ app.post("/login", (req, res) => {
     if (result.length > 0) {
       res.send("Login successful");
     } else {
-      res.send("Invalid credentials");
+      res.status(401).send("Invalid credentials");
     }
   });
 });
