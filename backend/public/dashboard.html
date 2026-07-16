@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Portfolio | Sumaira Akbar</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg: #030712;
+      --sidebar-glass: rgba(15, 23, 42, 0.95);
+      --card-glass: rgba(30, 41, 59, 0.4);
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.4);
+      --text-dim: #94a3b8;
+      --white: #f8fafc;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    body {
+      background: var(--bg);
+      background-image: radial-gradient(circle at 50% -20%, #1e293b, transparent), radial-gradient(circle at 0% 100%, #0f172a, transparent);
+      color: var(--white);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      perspective: 1200px;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+      width: 280px;
+      background: var(--sidebar-glass);
+      backdrop-filter: blur(25px);
+      border-right: 1px solid rgba(255,255,255,0.05);
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .user-tag {
+      padding: 15px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .user-tag p { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+    .user-tag h4 { font-size: 1rem; color: var(--white); margin-top: 4px; }
+
+    .nav-btn {
+      width: 100%;
+      padding: 14px 18px;
+      margin-bottom: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent);
+    }
+
+    /* --- VIEWPORT --- */
+    .viewport { flex: 1; padding: 40px 60px; overflow-y: auto; scroll-behavior: smooth; }
+
+    /* --- HERO CENTER --- */
+    .hero-center { text-align: center; margin: 60px 0 40px; animation: float 6s ease-in-out infinite; }
+    .hero-center h1 {
+      font-size: 4.5rem;
+      background: linear-gradient(to bottom, #fff 40%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .hero-center p { font-size: 1.3rem; color: var(--text-dim); font-weight: 300; }
+
+    /* --- SECTIONS --- */
+    .section { display: none; animation: enter 0.7s ease-out forwards; }
+    .section.active { display: block; }
+
+    @keyframes enter { from { opacity: 0; transform: translateZ(-100px); } to { opacity: 1; transform: translateZ(0); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 30px; }
+    
+    .card-4d {
+      background: var(--card-glass);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 24px;
+      backdrop-filter: blur(15px);
+      transition: 0.4s;
+    }
+
+    .card-4d:hover { border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-5px); }
+    .card-4d h3 { color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .card-4d p, .card-4d li { color: var(--text-dim); line-height: 1.6; font-size: 0.95rem; }
+    .card-4d ul { list-style: none; margin-top: 10px; }
+    .card-4d li::before { content: "•"; color: var(--accent); margin-right: 8px; }
+
+    .summary-box {
+      background: rgba(255,255,255,0.02);
+      border-radius: 24px;
+      padding: 40px;
+      border: 1px solid rgba(255,255,255,0.05);
+      line-height: 1.8;
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent);
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    /* --- RESPONSIVE MEDIA QUERY (Placed Correctly At The End) --- */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column !important;
+        height: auto !important;
+        overflow-y: auto !important;
+      }
+
+      .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        padding: 30px 20px !important;
+        position: relative !important;
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+      }
+
+      .viewport {
+        width: 100% !important;
+        padding: 20px !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+
+      .hero-center h1 {
+        font-size: 2.2rem !important;
+        margin-top: 20px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+      }
+
+      .card-4d {
+        padding: 20px !important;
+      }
+
+      .summary-box {
+        padding: 25px !important;
+        font-size: 0.95rem !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <div class="user-tag">
+      <p>Current Session</p>
+      <h4 id="sidebar-user-name">Guest User</h4>
+    </div>
+
+    <nav style="flex: 1;">
+      <button class="nav-btn active" onclick="show(this, 'home')"><i data-lucide="home"></i> Dashboard</button>
+      <button class="nav-btn" onclick="show(this, 'skills')"><i data-lucide="wrench"></i> Skills & Tools</button>
+      <button class="nav-btn" onclick="show(this, 'projects')"><i data-lucide="folder-kanban"></i> Projects</button>
+      <button class="nav-btn" onclick="show(this, 'experience')"><i data-lucide="briefcase"></i> Experience</button>
+    </nav>
+
+    <button class="nav-btn" style="color: #ef4444; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;" onclick="logout()">
+      <i data-lucide="power"></i> Logout
+    </button>
+  </aside>
+
+  <main class="viewport">
+    
+    <div id="home" class="section active">
+      <div class="hero-center">
+        <h1>Sumaira Akbar</h1>
+        <p>Computer Science Graduate | Software Engineer</p>
+      </div>
+
+      <div class="summary-box">
+        <span class="badge">Professional Summary</span><br>
+        Motivated final-semester Computer Science graduate with hands-on experience in software development, testing, and academic projects. Recently qualified HEC National IT Skills Competency Test (61.4%). Currently specializing in System Administration and IT Infrastructure under NAVTTC industrial guidelines.
+      </div>
+
+      <div class="grid">
+        <div class="card-4d">
+          <h3><i data-lucide="graduation-cap"></i> Education</h3>
+          <p><strong>Bachelor of Science in Computer Science</strong><br>Iqra University, Karachi<br>2021 — 2026</p>
+        </div>
+        <div class="card-4d">
+          <h3><i data-lucide="award"></i> Certifications</h3>
+          <p>• HEC IT Skills Test: 61.4%<br>• NAVTTC (In Progress): System Admin<br>• 10 Pearls: API Testing (Postman/JMeter)</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="skills" class="section">
+      <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Technical Stack</h2>
+      <div class="grid">
+        <div class="card-4d">
+          <h3>Testing & QA</h3>
+          <ul>
+            <li>Software Testing & QA (Manual)</li>
+            <li>API Testing (Postman & JMeter)</li>
+            <li>Test Case Design & Bug Reporting</li>
+          </ul>
+        </div>
+        <div class="card-4d">
+          <h3>Development & IT</h3>
+          <ul>
+            <li>Web Dev (HTML, CSS, React)</li>
+            <li>System Administration & Infrastructure</li>
+            <li>Database Management (SQL)</li>
+            <li>Version Control (Git)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="projects" class="section">
+      <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Selected Projects</h2>
+      <div class="grid">
+        <div class="card-4d">
+          <span class="badge">AI & Automation</span>
+          <h3>DeskBot</h3>
+          <p>Built a voice-controlled assistant to automate desktop tasks using speech recognition and basic AI.</p>
+        </div>
+        <div class="card-4d">
+          <span class="badge">Cybersecurity</span>
+          <h3>MITM Simulation</h3>
+          <p>Network security project analyzing vulnerabilities using Banana Pi and USB-based attack simulations.</p>
+        </div>
+        <div class="card-4d">
+          <span class="badge">Web App</span>
+          <h3>React Web Portal</h3>
+          <p>User Authentication system with registration, login, and robust input validation using React.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="experience" class="section">
+      <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Professional History</h2>
+      <div class="card-4d">
+        <span class="badge">March 2024 — Sept 2024</span>
+        <h3>Programmer Intern</h3>
+        <p><strong>SNJ Global Services</strong></p>
+        <ul>
+          <li>Developed and debugged production-ready code</li>
+          <li>Collaborated with cross-functional development teams</li>
+          <li>Applied SDLC and Agile practices in real-time environments</li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    // DYNAMIC USERNAME
+    window.onload = function() {
+      const userEmail = localStorage.getItem("userEmail");
+      if (userEmail) {
+        const name = userEmail.split('@')[0];
+        document.getElementById("sidebar-user-name").innerText = name.charAt(0).toUpperCase() + name.slice(1);
+      }
+    };
+
+    function show(btn, id) {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    function logout() {
+      localStorage.removeItem("userEmail");
+      window.location.href = "index.html"; 
+    }
+  </script>
+</body>
+</html>
