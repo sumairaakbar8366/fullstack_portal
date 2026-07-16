@@ -1,1 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Employee System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <div class="login-card">
+        <h2>Login</h2>
+        
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+        
+        <button onclick="doLogin()">Sign In</button>
+        
+        <p class="link-text">
+            New here? <a href="signup.html">Create Account</a>
+        </p>
+        
+        <div id="msg"></div>
+    </div>
+
+    <script>
+        async function doLogin() {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const msg = document.getElementById("msg");
+
+            if (!email || !password) {
+                msg.innerText = "Please enter both email and password";
+                msg.style.color = "#f87171"; // Red color
+                return;
+            }
+
+            msg.innerText = "Verifying...";
+            msg.style.color = "#38bdf8"; // Blue color
+
+            try {
+                // Backend URL aur /login route
+                const response = await fetch("https://fullstackportal-production-8a7f.up.railway.app/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.text();
+
+                if (response.ok && data.includes("Login successful")) {
+                    
+                    localStorage.setItem("userEmail", email);
+                    
+                    msg.innerText = "Success! Redirecting...";
+                    msg.style.color = "#22c55e"; // Green color
+                    
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 1200);
+                } else {
+                    
+                    msg.innerText = data || "Login failed. Please check details.";
+                    msg.style.color = "#f87171";
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+                msg.innerText = "Server Error. Is your Railway app running?";
+                msg.style.color = "#f87171";
+            }
+        }
+
+        
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                doLogin();
+            }
+        });
+    </script>
+</body>
+</html>
