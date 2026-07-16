@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>Create Account</h2>
+
+<input type="text" id="name" placeholder="Full Name">
+
+<input type="email" id="email" placeholder="Email">
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="signup()">Sign Up</button>
+
+<p>
+Already have an account?
+<a href="index.html">Login</a>
+</p>
+
+<div id="msg"></div>
+
+</div>
+
+<script>
+
+async function signup(){
+
+const name=document.getElementById("name").value.trim();
+
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value.trim();
+
+const msg=document.getElementById("msg");
+
+if(name==="" || email==="" || password===""){
+
+msg.style.color="red";
+
+msg.innerText="Please fill all fields";
+
+return;
+
+}
+
+try{
+
+const response=await fetch("/signup",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name,
+email,
+password
+})
+
+});
+
+const data=await response.text();
+
+if(response.ok){
+
+msg.style.color="green";
+
+msg.innerText=data;
+
+setTimeout(()=>{
+
+window.location.href="index.html";
+
+},1000);
+
+}else{
+
+msg.style.color="red";
+
+msg.innerText=data;
+
+}
+
+}catch(err){
+
+console.log(err);
+
+msg.style.color="red";
+
+msg.innerText="Server Error";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
